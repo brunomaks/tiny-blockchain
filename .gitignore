@@ -1,3 +1,6 @@
+# Any build dir anywhere in the repo
+build/
+
 # Prerequisites
 *.d
 

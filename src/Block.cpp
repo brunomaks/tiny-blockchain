@@ -19,4 +19,23 @@ std::string Block::calculateHash() const {
   return output;
 }
 
+uint64_t Block::getIndex() const noexcept {
+  return index;
+}
+
+uint64_t Block::getTimestamp() const noexcept {
+  return timestamp;
+}
+
+const std::string& Block::getData() const noexcept {
+  return data;
+}
+
+const std::string& Block::getHash() const noexcept {
+  return hash;
+}
+
+const std::string& Block::getPreviousHash() const noexcept {
+  return previousHash;
+}
 

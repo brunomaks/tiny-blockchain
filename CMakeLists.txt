@@ -7,6 +7,7 @@ set(SOURCES
     main.cpp
     src/Block.cpp
     src/Utils.cpp
+    src/Blockchain.cpp
 )
 
 add_executable(main ${SOURCES})

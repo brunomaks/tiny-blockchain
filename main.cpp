@@ -1,7 +1,10 @@
+#include "Block.hpp"
 #include <iostream>
-#include <string>
 
 int main(void) {
-  std::cout << "Hello World" << std::endl;
+  Block block(0, "Genesis", "0");
+
+  std::string hash = block.calculateHash();
+  std::cout << hash << std::endl;
   return 0;
 }

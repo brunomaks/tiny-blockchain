@@ -6,7 +6,7 @@
 
 class Block {
 public:
-  Block(int id, const std::string& data, const std::string& prevHash);
+  Block(uint64_t id, const std::string& data, const std::string& prevHash);
 
   std::string calculateHash() const;
   uint64_t getIndex() const noexcept;

@@ -1,4 +1,4 @@
-#include "Block.hpp" // check if it works on windows
+#include "Block.hpp"
 #include "Utils.hpp"
 #include "picosha2.h"
 #include <sstream>

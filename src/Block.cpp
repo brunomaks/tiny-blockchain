@@ -3,7 +3,7 @@
 #include "picosha2.h"
 #include <sstream>
 
-Block::Block(int id, const std::string& data, const std::string& prevHash)
+Block::Block(uint64_t id, const std::string& data, const std::string& prevHash)
   : index(id), data(data), previousHash(prevHash), nonce(0)
 {
   timestamp = getCurrentTimestamp();

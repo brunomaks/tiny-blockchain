@@ -5,10 +5,10 @@ A simple, educational blockchain and transaction ledger written in C++ for learn
 ## 1st milestone (deadline 2025-07-19 16:00 -> meeting)
 - Block creation and validation
 
-## 2nd milestone
-- Simple proof-of-work (PoW)
-- Peer-to-peer networking
-- Blockchain synchronization
+## 2nd milestone (deadline 2025-08)
+- Implement Proof of Work (Mining) (deadline TBD 1 week-ish)
+- Wallet and transactions
+- Implement Digital Signatures
 
 ## 3rd milestone
-- Wallet and transactions (optional, advanced)
+- Peer-to-peer networking

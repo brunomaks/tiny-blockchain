@@ -6,16 +6,18 @@
 
 class Blockchain {
 public:
-  Blockchain();
+  Blockchain(int difficulty);
 
   void addBlock(const std::string& data);
-  const Block& getLatestBlock() const;
   bool isValid() const;
-  const std::vector<Block>& getChain() const;
+  void adjustDifficulty();
+
+  const std::vector<Block>& getChain() const noexcept { return chain; };
+  int getDifficulty() const noexcept { return difficulty; };
 
 private:
   std::vector<Block> chain;
-  Block createGenesisBlock();
+  int difficulty;
 };
 
 #endif

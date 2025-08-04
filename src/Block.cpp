@@ -19,3 +19,13 @@ std::string Block::calculateHash() const {
   return output;
 }
 
+void Block::mine(int difficulty) {
+  std::string target(difficulty, '0');
+
+  while(hash.substr(0, difficulty) != target) {
+    // could potentially overflow and run infinetely
+    nonce++;
+    hash = calculateHash();
+  }
+}
+

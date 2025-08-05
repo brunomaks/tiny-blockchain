@@ -7,6 +7,7 @@ Blockchain::Blockchain() {
 void Blockchain::addBlock(const std::string& data) {
   const Block& latestBlock = getLatestBlock();
   Block newBlock(latestBlock.getIndex() + 1, data, latestBlock.getHash());
+  newBlock.mineBlock(3); // Example difficulty level
   chain.push_back(newBlock);
 }
 

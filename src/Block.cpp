@@ -7,7 +7,6 @@ Block::Block(uint64_t id, const std::string& data, const std::string& prevHash)
   : index(id), data(data), previousHash(prevHash), nonce(0)
 {
   timestamp = getCurrentTimestamp();
-  hash = calculateHash();
 }
 
 std::string Block::calculateHash() const {
@@ -19,23 +18,10 @@ std::string Block::calculateHash() const {
   return output;
 }
 
-uint64_t Block::getIndex() const noexcept {
-  return index;
+void Block::mineBlock(uint32_t difficulty) {
+  std::string target(difficulty, '0');
+  do {
+    nonce++;
+    hash = calculateHash();
+  } while (hash.substr(0, difficulty) != target);
 }
-
-uint64_t Block::getTimestamp() const noexcept {
-  return timestamp;
-}
-
-const std::string& Block::getData() const noexcept {
-  return data;
-}
-
-const std::string& Block::getHash() const noexcept {
-  return hash;
-}
-
-const std::string& Block::getPreviousHash() const noexcept {
-  return previousHash;
-}
-

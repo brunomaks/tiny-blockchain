@@ -1,11 +1,7 @@
 #include "Blockchain.hpp"
 
 Blockchain::Blockchain() {
-  chain.push_back(createGenesisBlock());
-}
-
-Block Blockchain::createGenesisBlock() {
-  return Block(0, "Genesis", "0");
+  chain.push_back(Block(0, "Genesis", "0"));
 }
 
 void Blockchain::addBlock(const std::string& data) {

@@ -4,7 +4,6 @@
 uint64_t getCurrentTimestamp() {
   using namespace std::chrono;
   const auto now = system_clock::now();
-                // might need milliseconds
   auto duration = duration_cast<seconds>(now.time_since_epoch());
   return duration.count();
 }

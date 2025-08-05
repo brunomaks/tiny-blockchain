@@ -9,11 +9,13 @@ public:
   Block(uint64_t id, const std::string& data, const std::string& prevHash);
 
   std::string calculateHash() const;
-  uint64_t getIndex() const noexcept;
-  uint64_t getTimestamp() const noexcept;
-  const std::string& getData() const noexcept;
-  const std::string& getHash() const noexcept;
-  const std::string& getPreviousHash() const noexcept;
+  uint64_t getIndex() const noexcept { return index; }
+  uint64_t getNonce() const noexcept { return nonce; }
+  uint64_t getTimestamp() const noexcept { return timestamp; }
+  const std::string& getData() const noexcept { return data; }
+  const std::string& getHash() const noexcept { return hash; }
+  const std::string& getPreviousHash() const noexcept { return previousHash; }
+  void mineBlock(uint32_t difficulty);
 
 private:
   uint64_t index;

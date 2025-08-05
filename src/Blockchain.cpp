@@ -7,8 +7,27 @@ Blockchain::Blockchain() {
 void Blockchain::addBlock(const std::string& data) {
   const Block& latestBlock = getLatestBlock();
   Block newBlock(latestBlock.getIndex() + 1, data, latestBlock.getHash());
-  newBlock.mineBlock(3); // Example difficulty level
+
+  if (chain.size() % DIFFICULTY_ADJUSTMENT_INTERVAL == 0) {
+    adjustDifficulty();
+  }
+  newBlock.mineBlock(difficulty);
   chain.push_back(newBlock);
+}
+
+void Blockchain::adjustDifficulty() {
+  if (chain.size() < DIFFICULTY_ADJUSTMENT_INTERVAL) {
+    return; // Not enough blocks to adjust difficulty
+  }
+
+  const Block& lastBlock = chain.back();
+  uint64_t timeTaken = lastBlock.getTimestamp() - chain[chain.size() - DIFFICULTY_ADJUSTMENT_INTERVAL].getTimestamp();
+
+  if (timeTaken < TARGET_BLOCK_TIME * DIFFICULTY_ADJUSTMENT_INTERVAL) {
+    difficulty++;
+  } else {
+    difficulty--;
+  }
 }
 
 const Block& Blockchain::getLatestBlock() const {

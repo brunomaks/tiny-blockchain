@@ -4,18 +4,16 @@
 int main(void) {
   Blockchain chain;
 
-  chain.addBlock("Alice sends Bob 5 coins");
-  chain.addBlock("Bob sends Charlie 3 coins");
-  chain.addBlock("Charlie sends Alice 1 coin");
-
-  for(const Block& block : chain.getChain()) {
-    std::cout << "Block #" << block.getIndex() << std::endl;
-    std::cout << "Timestamp: " << block.getTimestamp() << std::endl;
-    std::cout << "Data: " << block.getData() << std::endl;
-    std::cout << "Hash: " << block.getHash() << std::endl;
-    std::cout << "Previous hash: " << block.getPreviousHash() << std::endl;
-    std::cout << "------------------------------------------" << std::endl;
+  // test mining, difficulty 4 is too high for the current implementation (it will take a long time to mine)
+  for (int i = 0; i < 20; ++i) {
+    chain.addBlock("Block " + std::to_string(i + 1) + " data");
   }
+  std::cout << "Blockchain created with " << chain.getChain().size() << " blocks." << std::endl;
+  std::cout << "Latest Block Index: " << chain.getLatestBlock().getIndex() << std::endl;
+  std::cout << "Latest Block Hash: " << chain.getLatestBlock().getHash() << std::endl;
+  std::cout << "Blockchain Difficulty: " << chain.getChain().back().getNonce() << std::endl;
+  std::cout << "Blockchain Size: " << chain.getChain().size() << std::endl;
+  std::cout << "Blockchain Difficulty: " << chain.getDifficulty() << std::endl;
 
   std::cout << "Is Blockchain valid? " << (chain.isValid() ? "Yes" : "No") << std::endl;
 

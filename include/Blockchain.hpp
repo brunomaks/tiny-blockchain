@@ -12,6 +12,7 @@ public:
   const Block& getLatestBlock() const;
   bool isValid() const;
   const std::vector<Block>& getChain() const;
+  constexpr uint32_t getDifficulty() const { return difficulty; }
 
 private:
   std::vector<Block> chain;

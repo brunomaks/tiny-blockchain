@@ -9,7 +9,7 @@ public:
   Block(uint64_t id, const std::string& data, const std::string& prevHash);
 
   std::string calculateHash() const;
-  void mine(int difficulty);
+  void mine(uint32_t difficulty);
 
   uint64_t getIndex() const noexcept { return index; };
   uint64_t getTimestamp() const noexcept { return timestamp; };

@@ -6,7 +6,7 @@
 
 class Blockchain {
 public:
-  Blockchain(int difficulty);
+  Blockchain(uint32_t difficulty);
 
   void addBlock(const std::string& data);
   bool isValid() const;

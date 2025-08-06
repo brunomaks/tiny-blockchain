@@ -2,7 +2,7 @@
 #include "Constants.hpp"
 #include <iostream>
 
-Blockchain::Blockchain(int difficulty) 
+Blockchain::Blockchain(uint32_t difficulty) 
   : difficulty(difficulty) 
 {
   chain.push_back(Block(0, "Genesis", "0"));

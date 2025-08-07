@@ -4,7 +4,7 @@
 
 
 int main(void) {
-    Blockchain chain(1); // initial difficulty
+    Blockchain chain(10); // initial difficulty
 
     std::vector<std::string> transactions = {
         "Alice sends Bob 5 coins",

@@ -1,11 +1,12 @@
 #include "Blockchain.hpp"
 #include "Constants.hpp"
+#include "Utils.hpp"
 #include <iostream>
 
 Blockchain::Blockchain(uint32_t difficulty) 
   : difficulty(difficulty) 
 {
-  chain.push_back(Block(0, "Genesis", "0"));
+  chain.push_back(Block(0, "Genesis", getCurrentTimestamp(), "0"));
 }
 
 void Blockchain::addBlock(const std::string& data) {
@@ -14,7 +15,7 @@ void Blockchain::addBlock(const std::string& data) {
   if((latestBlock.getIndex() + 1) % ADJUST_DIFFICULTY_INTERVAL == 0) {
     adjustDifficulty();
   }
-  Block newBlock(latestBlock.getIndex() + 1, data, latestBlock.getHash());
+  Block newBlock(latestBlock.getIndex() + 1, data, getCurrentTimestamp(), latestBlock.getHash());
   newBlock.mine(difficulty);
   chain.push_back(newBlock);
 }
@@ -53,8 +54,7 @@ bool Blockchain::isValid() const {
       return false;
     }
 
-    std::string target(difficulty, '0');
-    if(curr.getHash().substr(0, difficulty) != target) {
+    if(!curr.meetsDifficulty(difficulty)) {
       return false;
     }
 

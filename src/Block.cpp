@@ -1,15 +1,16 @@
+#include <iostream>
+#include <sstream>
 #include "Block.hpp"
-#include "Utils.hpp"
 #include "picosha2.h"
 #include "BigInt.hpp"
-#include <sstream>
 
 typedef BigInt uint256_t;
 
-Block::Block(uint64_t id, const std::string& data, const std::string& prevHash)
-  : index(id), data(data), previousHash(prevHash), nonce(0)
+static const uint256_t MAX_TARGET("0x00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+
+Block::Block(const uint64_t id, const std::string& data, const uint64_t timestamp, const std::string& prevHash)
+  : index(id), data(data), timestamp(timestamp), previousHash(prevHash), nonce(0)
 {
-  timestamp = getCurrentTimestamp();
   hash = calculateHash();
 }
 
@@ -23,12 +24,7 @@ std::string Block::calculateHash() const {
 }
 
 void Block::mine(uint32_t difficulty_bits) {
-  uint256_t max_target("0x00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-
-  // each bit increase doubles the difficulty
-  uint256_t target = max_target / (16 * difficulty_bits);
-
-  std::cout << "Mining with target: " << target << std::endl;
+  const uint256_t target = MAX_TARGET / (2 * difficulty_bits);
 
   while(true) {
     std::string hex_hash = calculateHash();
@@ -36,15 +32,17 @@ void Block::mine(uint32_t difficulty_bits) {
     uint256_t hash_as_int(hex_hash);
 
     if(hash_as_int <= target) {
+      hash = hex_hash;
       break;
     }
 
+    // Potential nonce overflow, very low chance
     nonce++;
-
-    if(nonce == 0) {
-      std::cout << "Nonce overflowed, updating the timestamp..." << std::endl;
-      timestamp = getCurrentTimestamp();
-    }
   }
 }
 
+bool Block::meetsDifficulty(uint32_t difficulty_bits) const {
+  const uint256_t target = MAX_TARGET / (2 * difficulty_bits);
+  uint256_t hash_as_int(calculateHash());
+  return hash_as_int <= target;
+}

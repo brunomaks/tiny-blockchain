@@ -23,15 +23,28 @@ std::string Block::calculateHash() const {
 }
 
 void Block::mine(uint32_t difficulty_bits) {
-  uint256_t max_target("0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-  std::cout << max_target;
+  uint256_t max_target("0x00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 
-  std::string target(difficulty_bits, '0');
+  // each bit increase doubles the difficulty
+  uint256_t target = max_target / (16 * difficulty_bits);
 
-  while(hash.substr(0, difficulty_bits) != target) {
-    // could potentially overflow and run infinetely
+  std::cout << "Mining with target: " << target << std::endl;
+
+  while(true) {
+    std::string hex_hash = calculateHash();
+
+    uint256_t hash_as_int(hex_hash);
+
+    if(hash_as_int <= target) {
+      break;
+    }
+
     nonce++;
-    hash = calculateHash();
+
+    if(nonce == 0) {
+      std::cout << "Nonce overflowed, updating the timestamp..." << std::endl;
+      timestamp = getCurrentTimestamp();
+    }
   }
 }
 

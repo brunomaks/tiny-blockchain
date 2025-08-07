@@ -20,7 +20,6 @@
 #ifndef BIG_INT_HPP
 #define BIG_INT_HPP
 
-#include <algorithm>
 #include <iostream>
 
 class BigInt {
@@ -145,110 +144,6 @@ bool is_valid_number(const std::string& num) {
 
     return true;
 }
-
-// CUSTOM IMPLEMENTED
-bool isValidHex(const std::string& hex_str) {
-    if (hex_str.empty()) {
-        return false;
-    }
-
-    int start_pos = 0;
-
-    if (hex_str.size() > 2 && hex_str[0] == '0' && (hex_str[1] == 'x' || hex_str[1] == 'X')) {
-        start_pos = 2;
-    }
-
-    for (int i = start_pos; i < hex_str.size(); ++i) {
-        char digit = hex_str[i];
-        bool is_valid = (digit >= '0' && digit <= '9') ||
-                        (digit >= 'a' && digit <= 'f') ||
-                        (digit >= 'A' && digit <= 'F');
-
-        if (!is_valid) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-int hexCharToInt(char c) {
-    if (c >= '0' && c <= '9') {
-        return c - '0';
-    }
-    if (c >= 'a' && c <= 'f') {
-        return 10 + (c - 'a');
-    }
-    if (c >= 'A' && c <= 'F') {
-        return 10 + (c - 'A');
-    }
-    throw std::invalid_argument("Invalid hexadecimal character");
-}
-
-std::string multiplyString(std::string numStr, int factor) {
-    if (factor == 0) return "0";
-    if (factor == 1) return numStr;
-
-    std::string result = "";
-    int carry = 0;
-
-    for (int i = numStr.length() - 1; i >= 0; --i) {
-        int product = (numStr[i] - '0') * factor + carry;
-        result += std::to_string(product % 10);
-        carry = product / 10;
-    }
-
-    if (carry > 0) {
-        result += std::to_string(carry);
-    }
-
-    std::reverse(result.begin(), result.end());
-    return result;
-}
-
-std::string addStrings(std::string num1, std::string num2) {
-    std::string sum = "";
-    int i = num1.length() - 1;
-    int j = num2.length() - 1;
-    int carry = 0;
-
-    while (i >= 0 || j >= 0 || carry > 0) {
-        int digit1 = (i >= 0) ? num1[i--] - '0' : 0;
-        int digit2 = (j >= 0) ? num2[j--] - '0' : 0;
-        int currentSum = digit1 + digit2 + carry;
-        sum += std::to_string(currentSum % 10);
-        carry = currentSum / 10;
-    }
-
-    std::reverse(sum.begin(), sum.end());
-    return sum;
-}
-
-std::string hexToDec(const std::string& hex) {
-    if (hex.empty()) {
-        return "0";
-    }
-
-    int start_pos = 0;
-    if (hex.size() > 2 && hex[0] == '0' && (hex[1] == 'x' || hex[1] == 'X')) {
-        start_pos = 2;
-    }
-
-    std::string decimalResult = "0";
-
-    for (int i = start_pos; i < hex.size(); ++i) {
-        char hexChar = hex[i];
-        decimalResult = multiplyString(decimalResult, 16);
-
-        int hexValue = hexCharToInt(hexChar);
-
-        decimalResult = addStrings(decimalResult, std::to_string(hexValue));
-    }
-
-    return decimalResult;
-}
-// CUSTOM IMPLEMENTED
-
 
 /*
     strip_leading_zeroes
@@ -438,6 +333,9 @@ BigInt::BigInt(const long long& num) {
     String to BigInt
     ----------------
 */
+// ------ MODIFIED -----------
+#include "Utils.hpp"
+// ------ MODIFIED -----------
 
 BigInt::BigInt(const std::string& num) {
     if (num[0] == '+' or num[0] == '-') {     // check for sign
@@ -454,11 +352,12 @@ BigInt::BigInt(const std::string& num) {
         if (is_valid_number(num)) {
             value = num;
             sign = '+';    // positive by default
-        // LINE 385: MODIFIED -> is_valid_hex(num)
+        // ----------------- MODIFIED ------------------ 
         } else if(isValidHex(num)) {
             value = hexToDec(num);
             sign = '+';    // only positive hex for now
         }
+        // ----------------- MODIFIED ------------------ 
         else {
             throw std::invalid_argument("Expected an integer, got \'" + num + "\'");
         }

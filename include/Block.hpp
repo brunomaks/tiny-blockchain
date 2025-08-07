@@ -6,22 +6,27 @@
 
 class Block {
 public:
-  Block(uint64_t id, const std::string& data, const std::string& prevHash);
+  Block(const uint64_t id, const std::string& data, const uint64_t timestamp, const std::string& prevHash);
+
+  void mine(uint32_t difficulty);
 
   std::string calculateHash() const;
-  uint64_t getIndex() const noexcept;
-  uint64_t getTimestamp() const noexcept;
-  const std::string& getData() const noexcept;
-  const std::string& getHash() const noexcept;
-  const std::string& getPreviousHash() const noexcept;
+  bool meetsDifficulty(const uint32_t target) const;
+
+  uint64_t getIndex() const noexcept { return index; };
+  uint64_t getTimestamp() const noexcept { return timestamp; };
+  const std::string& getData() const noexcept { return data; };
+  const std::string& getHash() const noexcept { return hash; };
+  const std::string& getPreviousHash() const noexcept { return previousHash; }
+  uint64_t getNonce() const noexcept { return nonce; };
 
 private:
-  uint64_t index;
-  uint64_t timestamp;
-  std::string data;
-  std::string previousHash;
   std::string hash;
-  uint64_t nonce;
+  uint64_t nonce; // "number used once"
+  const uint64_t index;
+  const uint64_t timestamp;
+  const std::string data;
+  const std::string previousHash;
 };
 
 #endif

@@ -1,12 +1,16 @@
-#include "Block.hpp"
-#include "Utils.hpp"
-#include "picosha2.h"
+#include <iostream>
 #include <sstream>
+#include "Block.hpp"
+#include "picosha2.h"
+#include "BigInt.hpp"
 
-Block::Block(uint64_t id, const std::string& data, const std::string& prevHash)
-  : index(id), data(data), previousHash(prevHash), nonce(0)
+typedef BigInt uint256_t;
+
+static const uint256_t MAX_TARGET("0x00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+
+Block::Block(const uint64_t id, const std::string& data, const uint64_t timestamp, const std::string& prevHash)
+  : index(id), data(data), timestamp(timestamp), previousHash(prevHash), nonce(0)
 {
-  timestamp = getCurrentTimestamp();
   hash = calculateHash();
 }
 
@@ -19,23 +23,26 @@ std::string Block::calculateHash() const {
   return output;
 }
 
-uint64_t Block::getIndex() const noexcept {
-  return index;
+void Block::mine(uint32_t difficulty_bits) {
+  const uint256_t target = MAX_TARGET / (2 * difficulty_bits);
+
+  while(true) {
+    std::string hex_hash = calculateHash();
+
+    uint256_t hash_as_int(hex_hash);
+
+    if(hash_as_int <= target) {
+      hash = hex_hash;
+      break;
+    }
+
+    // Potential nonce overflow, very low chance
+    nonce++;
+  }
 }
 
-uint64_t Block::getTimestamp() const noexcept {
-  return timestamp;
+bool Block::meetsDifficulty(uint32_t difficulty_bits) const {
+  const uint256_t target = MAX_TARGET / (2 * difficulty_bits);
+  uint256_t hash_as_int(calculateHash());
+  return hash_as_int <= target;
 }
-
-const std::string& Block::getData() const noexcept {
-  return data;
-}
-
-const std::string& Block::getHash() const noexcept {
-  return hash;
-}
-
-const std::string& Block::getPreviousHash() const noexcept {
-  return previousHash;
-}
-

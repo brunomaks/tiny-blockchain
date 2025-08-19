@@ -2,23 +2,26 @@
 #include "Transaction.hpp"
 #include <chrono>
 #include <iostream>
+#include <vector>
 
 
 int main(void) {
+    std::cout << "Program started" << std::endl;
+
     Blockchain chain(10); // initial difficulty
 
     std::vector<std::vector<Transaction>> transactions = {
-        {Transaction("Alice", "Bob", "5")},
-        {Transaction("Bob", "Charlie", "3")},
-        {Transaction("Charlie", "Alice", "1")},
-        {Transaction("Dave", "Eve", "4")},
-        {Transaction("Eve", "Frank", "2")},
-        {Transaction("Frank", "George", "7")},
-        {Transaction("George", "Helen", "6")},
-        {Transaction("Helen", "Ivan", "1")},
-        {Transaction("Ivan", "Judy", "3")},
-        {Transaction("Judy", "Kevin", "8")},
-        {Transaction("Kevin", "Laura", "2")},
+        {Transaction("Alice", "Bob", "5"), Transaction("Alice", "Bob", "5")},
+        {Transaction("Bob", "Charlie", "3"), Transaction("Bob", "Charlie", "3")},
+        {Transaction("Charlie", "Alice", "1"), Transaction("Charlie", "Alice", "1")},
+        {Transaction("Dave", "Eve", "4"), Transaction("Dave", "Eve", "4")},
+        {Transaction("Eve", "Frank", "2"), Transaction("Eve", "Frank", "2")},
+        {Transaction("Frank", "George", "7"), Transaction("Frank", "George", "7")},
+        {Transaction("George", "Helen", "6"), Transaction("George", "Helen", "6")},
+        {Transaction("Helen", "Ivan", "1"), Transaction("Helen", "Ivan", "1")},
+        {Transaction("Ivan", "Judy", "3"), Transaction("Ivan", "Judy", "3")},
+        {Transaction("Judy", "Kevin", "8"), Transaction("Judy", "Kevin", "8")},
+        {Transaction("Kevin", "Laura", "2"), Transaction("Kevin", "Laura", "2")},
         {Transaction("Laura", "Mallory", "5")},
         {Transaction("Mallory", "Neil", "4")},
         {Transaction("Neil", "Olivia", "9")},

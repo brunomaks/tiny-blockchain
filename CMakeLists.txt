@@ -10,6 +10,7 @@ set(SOURCES
     src/Block.cpp
     src/Utils.cpp
     src/Blockchain.cpp
+    src/Transaction.cpp
 )
 
 add_executable(main ${SOURCES})

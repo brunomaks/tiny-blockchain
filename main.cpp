@@ -1,4 +1,5 @@
 #include "Blockchain.hpp"
+#include "Transaction.hpp"
 #include <chrono>
 #include <iostream>
 
@@ -6,22 +7,22 @@
 int main(void) {
     Blockchain chain(10); // initial difficulty
 
-    std::vector<std::string> transactions = {
-        "Alice sends Bob 5 coins",
-        "Bob sends Charlie 3 coins",
-        "Charlie sends Alice 1 coin",
-        "Dave sends Eve 4 coins",
-        "Eve sends Frank 2 coins",
-        "Frank sends George 7 coins",
-        "George sends Helen 6 coins",
-        "Helen sends Ivan 1 coin",
-        "Ivan sends Judy 3 coins",
-        "Judy sends Kevin 8 coins",
-        "Kevin sends Laura 2 coins",
-        "Laura sends Mallory 5 coins",
-        "Mallory sends Neil 4 coins",
-        "Neil sends Olivia 9 coins",
-        "Olivia sends Paul 1 coin"
+    std::vector<std::vector<Transaction>> transactions = {
+        {Transaction("Alice", "Bob", "5")},
+        {Transaction("Bob", "Charlie", "3")},
+        {Transaction("Charlie", "Alice", "1")},
+        {Transaction("Dave", "Eve", "4")},
+        {Transaction("Eve", "Frank", "2")},
+        {Transaction("Frank", "George", "7")},
+        {Transaction("George", "Helen", "6")},
+        {Transaction("Helen", "Ivan", "1")},
+        {Transaction("Ivan", "Judy", "3")},
+        {Transaction("Judy", "Kevin", "8")},
+        {Transaction("Kevin", "Laura", "2")},
+        {Transaction("Laura", "Mallory", "5")},
+        {Transaction("Mallory", "Neil", "4")},
+        {Transaction("Neil", "Olivia", "9")},
+        {Transaction("Olivia", "Paul", "1")}
     };
 
     for (const auto& tx : transactions) {
@@ -37,7 +38,7 @@ int main(void) {
     for (const Block& block : chain.getChain()) {
         std::cout << "Block #" << block.getIndex() << std::endl;
         std::cout << "Timestamp: " << block.getTimestamp() << std::endl;
-        std::cout << "Data: " << block.getData() << std::endl;
+        std::cout << "Data: " << block.getTransactions().size() << " transactions" << std::endl;
         std::cout << "Hash: " << block.getHash() << std::endl;
         std::cout << "Previous hash: " << block.getPreviousHash() << std::endl;
         std::cout << "Nonce: " << block.getNonce() << std::endl;

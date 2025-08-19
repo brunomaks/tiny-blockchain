@@ -8,15 +8,19 @@ typedef BigInt uint256_t;
 
 static const uint256_t MAX_TARGET("0x00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 
-Block::Block(const uint64_t id, const std::string& data, const uint64_t timestamp, const std::string& prevHash)
-  : index(id), data(data), timestamp(timestamp), previousHash(prevHash), nonce(0)
+Block::Block(const uint64_t id, const std::vector<Transaction>& transactions, const uint64_t timestamp, const std::string& prevHash)
+  : index(id), transactions(transactions), timestamp(timestamp), previousHash(prevHash), nonce(0)
 {
   hash = calculateHash();
 }
 
 std::string Block::calculateHash() const {
   std::stringstream ss;
-  ss << index << timestamp << data << previousHash << nonce;
+  ss << index << timestamp;
+  for (const auto& tx : transactions) {
+    ss << tx.getHash();
+  }
+  ss << previousHash << nonce;
   std::string input = ss.str();
   std::string output;
   picosha2::hash256_hex_string(input, output);

@@ -7,8 +7,9 @@
 class Transaction {
   public:
     Transaction(const std::string& sender, const std::string& recipient, const std::string& value);
-    std::string calculateHash() const;
     
+    std::string calculateHash() const;
+    const std::string& getHash() const noexcept { return hash; }
 
   private:
     const std::string hash;

@@ -8,7 +8,7 @@ class Blockchain {
 public:
   Blockchain(uint32_t difficulty);
 
-  void addBlock(const std::string& data);
+  void addBlock(const std::vector<Transaction>& transactions);
   bool isValid() const;
   void adjustDifficulty();
 

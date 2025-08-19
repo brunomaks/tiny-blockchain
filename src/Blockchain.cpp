@@ -1,21 +1,22 @@
 #include "Blockchain.hpp"
 #include "Constants.hpp"
+#include "Transaction.hpp"
 #include "Utils.hpp"
 #include <iostream>
 
 Blockchain::Blockchain(uint32_t difficulty) 
   : difficulty(difficulty) 
 {
-  chain.push_back(Block(0, "Genesis", getCurrentTimestamp(), "0"));
+  chain.push_back(Block(0, {Transaction("Genesis", "Genesis", "0")}, getCurrentTimestamp(), "0"));
 }
 
-void Blockchain::addBlock(const std::string& data) {
+void Blockchain::addBlock(const std::vector<Transaction>& transactions) {
   const Block& latestBlock = chain.back();
 
   if((latestBlock.getIndex() + 1) % ADJUST_DIFFICULTY_INTERVAL == 0) {
     adjustDifficulty();
   }
-  Block newBlock(latestBlock.getIndex() + 1, data, getCurrentTimestamp(), latestBlock.getHash());
+  Block newBlock(latestBlock.getIndex() + 1, transactions, getCurrentTimestamp(), latestBlock.getHash());
   newBlock.mine(difficulty);
   chain.push_back(newBlock);
 }
